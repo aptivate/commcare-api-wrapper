@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa">
+	<h:head>
+		<h:title>testmodule1_form_createcase</h:title>
+		<model>
+			<instance>
+				<data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/6B10FA6F-DBCB-4DAA-A310-6646E7CC19DB" uiVersion="1" version="1" name="testmodule1_form_createcase">
+					<testmodule1_form_createcase_question1 />
+					<testmodule1_form_createcase_question2 />
+					<testmodule1_form_createcase_question3 />
+					<testmodule1_form_createcase_question4 />
+					<repeat jr:template="">
+						<testmodule1_form_createcase_repeat_question1 />
+						<testmodule1_form_createcase_repeat_question2 />
+					</repeat>
+					<test_module_1_group>
+						<testmodule1_form_createcase_group_question1 />
+						<testmodule1_form_createcase_group_question2 />
+						<testmodule1_form_createcase_group_question3 />
+					</test_module_1_group>
+					<new_text_question />
+				</data>
+			</instance>
+			<bind nodeset="/data/testmodule1_form_createcase_question1" type="xsd:string" />
+			<bind nodeset="/data/testmodule1_form_createcase_question2" type="xsd:string" />
+			<bind nodeset="/data/testmodule1_form_createcase_question3" />
+			<bind nodeset="/data/testmodule1_form_createcase_question4" />
+			<bind nodeset="/data/repeat" />
+			<bind nodeset="/data/repeat/testmodule1_form_createcase_repeat_question1" type="xsd:string" />
+			<bind nodeset="/data/repeat/testmodule1_form_createcase_repeat_question2" type="xsd:string" />
+			<bind nodeset="/data/test_module_1_group" />
+			<bind nodeset="/data/test_module_1_group/testmodule1_form_createcase_group_question1" type="xsd:string" />
+			<bind nodeset="/data/test_module_1_group/testmodule1_form_createcase_group_question2" type="xsd:string" />
+			<bind nodeset="/data/test_module_1_group/testmodule1_form_createcase_group_question3" />
+			<bind nodeset="/data/new_text_question" type="xsd:string" />
+			<itext>
+				<translation lang="en" default="">
+					<text id="testmodule1_form_createcase_question1-label">
+						<value>Test Module 1 - Form - CreateCase - Question1</value>
+					</text>
+					<text id="testmodule1_form_createcase_question2-label">
+						<value>Test Module 1 - Form - CreateCase - Question2</value>
+					</text>
+					<text id="testmodule1_form_createcase_question3-label">
+						<value>Test module 1 - Form - CreateCase - Question3</value>
+					</text>
+					<text id="question7-select1-label">
+						<value>Select 1 Item</value>
+					</text>
+					<text id="question7-select2-label">
+						<value>Select 2 Item</value>
+					</text>
+					<text id="testmodule1_form_createcase_question4-label">
+						<value>Test module 1 - Form - CreateCase - Question4</value>
+					</text>
+					<text id="testmodule1_form_createcase_question3-1-select1-label">
+						<value>Select 1 Item Multi</value>
+					</text>
+					<text id="testmodule1_form_createcase_question3-1-select2-label">
+						<value>Select 2 Item Multi</value>
+					</text>
+					<text id="repeat-label">
+						<value>Test Module 1 - Form - CreateCase - Repeat Group</value>
+					</text>
+					<text id="testmodule1_form_createcase_repeat_question1-label">
+						<value>Test Module 1 - Form - CreateCase - Repeat Question1</value>
+					</text>
+					<text id="testmodule1_form_createcase_repeat_question2-label">
+						<value>Test Module 1 - Form - CreateCase - Repeat - Question2</value>
+					</text>
+					<text id="test_module_1_group-label">
+						<value>Test module 1 - Form - CreateCase - Group</value>
+					</text>
+					<text id="testmodule1_form_createcase_group_question1-label">
+						<value>Test Module 1 - Form - CreateCase - Group - Question1</value>
+					</text>
+					<text id="testmodule1_form_createcase_group_question2-label">
+						<value>Test Module 1 - Form - CreateCase - Group - Question2</value>
+					</text>
+					<text id="testmodule1_form_createcase_group_question3-label">
+						<value>Test module 1 - Form - CreateCase - Group Question3</value>
+					</text>
+					<text id="testmodule1_form_createcase_question3-1-select1-label2">
+						<value>Group Select 1 Item</value>
+					</text>
+					<text id="testmodule1_form_createcase_question3-1-select2-label2">
+						<value>Group Select 2 Item</value>
+					</text>
+					<text id="new_text_question-label">
+						<value>Test Module 1 - Form - CreateCase - NewTextQuestion</value>
+					</text>
+				</translation>
+			</itext>
+		</model>
+	</h:head>
+	<h:body>
+		<input ref="/data/testmodule1_form_createcase_question1">
+			<label ref="jr:itext('testmodule1_form_createcase_question1-label')" />
+		</input>
+		<input ref="/data/testmodule1_form_createcase_question2">
+			<label ref="jr:itext('testmodule1_form_createcase_question2-label')" />
+		</input>
+		<select1 ref="/data/testmodule1_form_createcase_question3">
+			<label ref="jr:itext('testmodule1_form_createcase_question3-label')" />
+			<item>
+				<label ref="jr:itext('question7-select1-label')" />
+				<value>select1</value>
+			</item>
+			<item>
+				<label ref="jr:itext('question7-select2-label')" />
+				<value>select2</value>
+			</item>
+		</select1>
+		<select ref="/data/testmodule1_form_createcase_question4">
+			<label ref="jr:itext('testmodule1_form_createcase_question4-label')" />
+			<item>
+				<label ref="jr:itext('testmodule1_form_createcase_question3-1-select1-label')" />
+				<value>select1</value>
+			</item>
+			<item>
+				<label ref="jr:itext('testmodule1_form_createcase_question3-1-select2-label')" />
+				<value>select2</value>
+			</item>
+		</select>
+		<group>
+			<label ref="jr:itext('repeat-label')" />
+			<repeat nodeset="/data/repeat">
+				<input ref="/data/repeat/testmodule1_form_createcase_repeat_question1">
+					<label ref="jr:itext('testmodule1_form_createcase_repeat_question1-label')" />
+				</input>
+				<input ref="/data/repeat/testmodule1_form_createcase_repeat_question2">
+					<label ref="jr:itext('testmodule1_form_createcase_repeat_question2-label')" />
+				</input>
+			</repeat>
+		</group>
+		<group ref="/data/test_module_1_group">
+			<label ref="jr:itext('test_module_1_group-label')" />
+			<input ref="/data/test_module_1_group/testmodule1_form_createcase_group_question1">
+				<label ref="jr:itext('testmodule1_form_createcase_group_question1-label')" />
+			</input>
+			<input ref="/data/test_module_1_group/testmodule1_form_createcase_group_question2">
+				<label ref="jr:itext('testmodule1_form_createcase_group_question2-label')" />
+			</input>
+			<select1 ref="/data/test_module_1_group/testmodule1_form_createcase_group_question3">
+				<label ref="jr:itext('testmodule1_form_createcase_group_question3-label')" />
+				<item>
+					<label ref="jr:itext('testmodule1_form_createcase_question3-1-select1-label2')" />
+					<value>select1</value>
+				</item>
+				<item>
+					<label ref="jr:itext('testmodule1_form_createcase_question3-1-select2-label2')" />
+					<value>select2</value>
+				</item>
+			</select1>
+		</group>
+		<input ref="/data/new_text_question">
+			<label ref="jr:itext('new_text_question-label')" />
+		</input>
+	</h:body>
+</h:html>

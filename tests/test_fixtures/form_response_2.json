@@ -1,0 +1,41 @@
+{
+    "archived": false, 
+    "uiversion": "", 
+    "form": {
+        "@xmlns": "http://commcarehq.org/cloudcare/custom-edit", 
+        "case": {
+            "@xmlns": "http://commcarehq.org/case/transaction/v2", 
+            "index": "", 
+            "@date_modified": "2013-02-12T20:55:58", 
+            "@user_id": "1d9f7695a0249d4e286cb3286b33dd0f", 
+            "update": {
+                "owner_id": "cf0b7d3f231d2c384d3259d4f04d3978"
+            }, 
+            "@case_id": "d54f6068-cb66-4b99-92b1-a923afff87cb"
+        }, 
+        "meta": {
+            "@xmlns": "http://openrosa.org/jr/xforms", 
+            "instanceID": "PG25GC8U3RUKE34TYRGYA15UJ", 
+            "timeStart": "", 
+            "userID": "1d9f7695a0249d4e286cb3286b33dd0f", 
+            "timeEnd": "2013-02-12T20:55:58"
+        }, 
+        "#type": "data"
+    }, 
+    "resource_uri": "", 
+    "received_on": "2013-02-12T20:55:58", 
+    "version": "", 
+    "md5": "e24c71b81fce829fbdc634ce3aefd50d", 
+    "type": "data", 
+    "id": "PG25GC8U3RUKE34TYRGYA15UJ", 
+    "metadata": {
+        "@xmlns": "http://openrosa.org/jr/xforms", 
+        "username": null, 
+        "deprecatedID": null, 
+        "userID": "1d9f7695a0249d4e286cb3286b33dd0f", 
+        "timeEnd": "2013-02-12T20:55:58", 
+        "timeStart": null, 
+        "instanceID": "PG25GC8U3RUKE34TYRGYA15UJ", 
+        "deviceID": null
+    }
+}

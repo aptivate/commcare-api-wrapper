@@ -1,0 +1,32 @@
+{
+    "date_closed": null, 
+    "server_date_modified": "2013-02-12 21:00:05", 
+    "user_id": "1d9f7695a0249d4e286cb3286b33dd0f", 
+    "date_modified": "2013-02-12 21:00:04", 
+    "properties": {
+        "testmodule1_form_createcase_question1": "Updated info", 
+        "testmodule1_form_createcase_question3": "", 
+        "testmodule1_form_createcase_question2": "", 
+        "case_type": "testmodule1_case", 
+        "case_name": "Test Data 1 - Question1", 
+        "testmodule1_form_createcase_group_question3": "", 
+        "testmodule1_form_createcase_group_question2": "", 
+        "testmodule1_form_createcase_group_question1": "", 
+        "testmodule1_form_createcase_question4": "", 
+        "date_opened": "2013-02-11T19:59:49", 
+        "external_id": null, 
+        "owner_id": "cf0b7d3f231d2c384d3259d4f04d3978"
+    }, 
+    "server_date_opened": "2013-02-11 19:59:50", 
+    "case_id": "d54f6068-cb66-4b99-92b1-a923afff87cb", 
+    "closed": false, 
+    "indices": {}, 
+    "xform_ids": [
+        "315c73e1-bc8b-40bb-8c1e-11aa94774ba2", 
+        "PG25GC8U3RUKE34TYRGYA15UJ", 
+        "PU2H67JR3KX99X3H4SYQG6DRJ", 
+        "03df7515-c7dc-4cac-bde3-aea14c6e45a8"
+    ], 
+    "id": "d54f6068-cb66-4b99-92b1-a923afff87cb", 
+    "resource_uri": ""
+}

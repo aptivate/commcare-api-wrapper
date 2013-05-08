@@ -31,7 +31,7 @@ is the app_id.
 
 You can also use it directly from the commandline using the dump-api-fixtures
 script.
-
+````
 usage: dump_api_fixtures.py [-h] -u U -p P -d D {case,form} ...
 
 positional arguments:
@@ -44,7 +44,7 @@ optional arguments:
   -u U         username (eg. "user@example.org")
   -p P         password
   -d D         domain 
-
+````
 If you just use case, then you will get a list of all cases, if you provide a
 case_id or a form_id you will get just that information.
 

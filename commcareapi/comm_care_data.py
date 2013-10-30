@@ -183,8 +183,13 @@ class CommCareCase(object):
         u"date_opened": None,
     }
 
+    # case_data can be both json or dictionary representation of a commcare case
     def __init__(self, case_data):
-        self.case_data = case_data
+        if not isinstance(case_data, dict):
+            self.case_data = json.loads(case_data)
+        else:
+            self.case_data = case_data
+            
         if not self.is_case_valid:
             raise CommCareResourceValidationError('Case not valid')
 
@@ -200,20 +205,14 @@ class CommCareCase(object):
 
     @property
     def case_id(self):
-        if not isinstance(self.case_data, dict):
-            self.case_data = json.loads(self.case_data)
         return self.case_data.get('case_id', None)
 
     @property
     def xform_ids(self):
-        if not isinstance(self.case_data, dict):
-            self.case_data = json.loads(self.case_data)
         return self.case_data.get('xform_ids', [])
 
     @property
     def case_properties(self):
-        if not isinstance(self.case_data, dict):
-            self.case_data = json.loads(self.case_data)
         return self.case_data.get('properties', {})
 
     @property

@@ -3,7 +3,8 @@ import pytest
 import json
 
 from commcareapi.comm_care_data import CommCareAPI, CommCareResources, \
-    CommCareResourceValidationError, CommCareSuiteXML, CommCareCase
+    CommCareResourceValidationError, CommCareSuiteXML, CommCareCase, \
+    CommCareCaseValueError
 from commcareapi.xform import XForm
 
 
@@ -306,3 +307,11 @@ class TestCommCareCase():
     def test_case_type_property(self, case_fixture):
         expected_case_type = "testmodule1_case"
         assert case_fixture.case_type == expected_case_type
+        
+    def test_raises_value_error_on_bad_case_data(self):
+        with pytest.raises(CommCareCaseValueError) as error:
+            CommCareCase(None)
+        expectederror = 'Could not parse case_data'
+        assert str(error.value).find(expectederror) >= 0, \
+            "Did not find correct error message: %s" % expectederror
+

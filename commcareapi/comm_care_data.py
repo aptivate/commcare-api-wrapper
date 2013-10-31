@@ -160,6 +160,8 @@ class CommCareForm(object):
 
         return human_readable
 
+class CommCareCaseValueError(Exception):
+    pass
 
 class CommCareCase(object):
 
@@ -186,7 +188,10 @@ class CommCareCase(object):
     # case_data can be both json or dictionary representation of a commcare case
     def __init__(self, case_data):
         if not isinstance(case_data, dict):
-            self.case_data = json.loads(case_data)
+            try:
+                self.case_data = json.loads(case_data)
+            except:
+                raise CommCareCaseValueError('Could not parse case_data')
         else:
             self.case_data = case_data
             

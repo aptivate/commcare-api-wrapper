@@ -1,5 +1,6 @@
 import os
 import pytest
+import pprint
 
 from commcareapi.xform import XForm
 
@@ -51,3 +52,38 @@ class TestGetQuestions:
         children_list = group['children']
         assert children_list[0]['value'] == \
             "/data/repeat/testmodule1_form_createcase_repeat_question1"
+
+    def test_value_correct_for_repeat_questions(self):
+        test_dir = os.path.abspath(os.path.dirname(__file__))
+        raw_xform_file = os.path.join(test_dir, 'test_fixtures', 
+            'test_repeat_definition.xml')
+        raw_xform = open(raw_xform_file, 'r').read()
+        xform_test = XForm(raw_xform)
+        
+        actual_questions = xform_test.get_questions(['en'])
+        
+        expected_questions = \
+        [{
+            'tag': 'group',
+            'children': 
+            [{
+                'tag': 'input', 
+                'value': '/data/group_membership/group_name', 
+                'label': '6. Group name'
+            }, 
+            {
+                'tag': 'group', 
+                'children':
+                [{
+                    'tag': 'input',
+                    'value': '/data/group_membership/group_position/position',
+                    'label': '10. Position'
+                }], 
+                'value': '/data/group_membership/group_position',
+                'label': 'Positions held'
+            }],
+            'value': '/data/group_membership',
+            'label': 'Group membership'}
+        ]
+
+        assert actual_questions == expected_questions

@@ -117,7 +117,6 @@ class CommCareForm(object):
         TODO: Currently throws away any ungrouped data nodes, but should
         probably be made available.
         """
-        human_readable = {}
         form_data = self.form_data['form']
 
         def resolve_form_values(form_def, form_data):
@@ -136,8 +135,16 @@ class CommCareForm(object):
 
                 if tag == 'group':
                     children = def_node.get('children', [])
-                    group_nodes = resolve_form_values(children, value)
-                    human_readable.update({name: group_nodes})
+
+                    if isinstance(value, list):
+                        group_nodes = []
+                        for repeat_value in value:
+                            group_nodes.extend(resolve_form_values(children,
+                                repeat_value))
+                    else:
+                        group_nodes = resolve_form_values(children, value)
+                    data_nodes.append((label, group_nodes))
+                        
                 elif tag in ['select', 'select1']:
                     options = def_node.get('options', [])
 
@@ -155,10 +162,8 @@ class CommCareForm(object):
                     data_nodes.append((label, value))
 
             return data_nodes
+        return resolve_form_values(form_definition, form_data)
 
-        resolve_form_values(form_definition, form_data)
-
-        return human_readable
 
 class CommCareCaseValueError(Exception):
     pass

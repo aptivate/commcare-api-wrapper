@@ -1,0 +1,55 @@
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa">
+	<h:head>
+		<h:title>Membership</h:title>
+		<model>
+			<instance>
+				<data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/0BB4FA46-2EB6-4765-81E0-2FC5CA072EF5" uiVersion="1" version="153" name="Membership">
+					<group_membership jr:template="">
+						<group_name/>
+						<group_position jr:template="">
+							<position/>
+						</group_position>
+					</group_membership>
+				</data>
+			</instance><instance id="commcaresession" src="jr://instance/session"/>
+			<bind nodeset="/data/group_membership"/>
+			<bind nodeset="/data/group_membership/group_name" type="xsd:string" required="true()"/>
+			<bind nodeset="/data/group_membership/group_position"/>
+			<bind nodeset="/data/group_membership/group_position/position" type="xsd:string"/>
+			<itext>
+				<translation lang="en" default="">
+					<text id="group_membership-label">
+						<value>Group membership</value>
+					</text>
+					<text id="group_name-label">
+						<value>6. Group name</value>
+					</text>
+					<text id="group_position-label">
+						<value>Positions held</value>
+					</text>
+					<text id="position-label">
+						<value>10. Position</value>
+					</text>
+				</translation>
+			</itext>
+		</model>
+	</h:head>
+	<h:body>
+		<group>
+			<label ref="jr:itext('group_membership-label')"/>
+			<repeat nodeset="/data/group_membership">
+				<input ref="/data/group_membership/group_name">
+					<label ref="jr:itext('group_name-label')"/>
+				</input>
+				<group>
+					<label ref="jr:itext('group_position-label')"/>
+					<repeat nodeset="/data/group_membership/group_position">
+						<input ref="/data/group_membership/group_position/position">
+							<label ref="jr:itext('position-label')"/>
+						</input>
+					</repeat>
+				</group>
+			</repeat>
+		</group>
+	</h:body>
+</h:html>

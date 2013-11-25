@@ -296,26 +296,41 @@ class XForm(WrappedNode):
                 raise XFormError("Node <%s> has no 'ref' or 'bind'" % prompt.tag_name)
             return path
 
-        questions = []
         excluded_paths = set()
 
         def build_questions(group, path_context="", exclude=False):
+            
             questions = []
             for prompt in group.findall('*'):
                 if prompt.tag_xmlns == namespaces['f'][1:-1] and prompt.tag_name != "label":
                     path = self.resolve_path(get_path(prompt), path_context)
                     excluded_paths.add(path)
                     if prompt.tag_name == "group":
+                        if get_path(prompt) != "":
+                            question = {
+                                "label": self.get_label_text(prompt, langs),
+                                "tag": prompt.tag_name,
+                                "value": path,
+                                "children": build_questions(prompt, path_context=path)
+                            }
+                            questions.append(question)
+                        else:
+                            qs = build_questions(prompt, path_context=path)
+                            questions.extend(qs)
+                    elif prompt.tag_name == "repeat":
+                        """
+                        We are assuming that repeating groups consist of a 
+                        group tag with no path and containing a label and a 
+                        repeat tag. This allows repeat groups to appear as a 
+                        single group node in the output data structure.
+                        """
                         question = {
-                            "label": self.get_label_text(prompt, langs),
-                            "tag": prompt.tag_name,
+                            "label": self.get_label_text(group, langs),
+                            "tag": 'group',
                             "value": path,
                             "children": build_questions(prompt, path_context=path)
                         }
                         questions.append(question)
-                    elif prompt.tag_name == "repeat":
-                        qs = build_questions(prompt, path_context=path)
-                        questions.extend(qs)
                     elif prompt.tag_name not in ("trigger", "label"):
                         if not exclude:
                             question = {

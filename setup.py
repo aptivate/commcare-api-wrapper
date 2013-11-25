@@ -6,4 +6,4 @@ setup(name='CommCareApi',
       version='0.1',
       description='CommCare API Client',
       install_requires=['drest', 'jsonpath', 'lxml'],
-      packages=['commcareapi', 'xform'],)
+      packages=['commcareapi'],)

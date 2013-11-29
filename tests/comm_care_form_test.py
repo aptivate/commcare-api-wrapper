@@ -190,139 +190,6 @@ class TestHumaniseFormData():
         assert True, "If this test is broken an assertion error will be raised \
                         while .make_human_readable() is running"
 
-    """
-    Form data:
-    {
-        u'@uiVersion': u'1', 
-        u'case': {
-            u'@xmlns': u'http://commcarehq.org/case/transaction/v2',
-            u'@case_id': u'8f6ebc41-5c66-47ec-9e60-bccdd7529938',
-            u'@user_id': u'de6ed25cd6baf50106f146182a824a46',
-            u'@date_modified': datetime.datetime(2013, 11, 18, 17, 52, 13),
-            u'update': u''},
-        u'@name': u'Membership', 
-        u'#type': u'data', 
-        u'meta': {
-            u'@xmlns': u'http://openrosa.org/jr/xforms',
-            u'username': u'mobile5',
-            u'instanceID': u'17348205-481d-4c0c-b952-f0b552145314',
-            u'userID': u'de6ed25cd6baf50106f146182a824a46',
-            u'timeEnd': datetime.datetime(2013, 11, 18, 17, 52, 13),
-            u'appVersion': {
-                u'@xmlns': u'http://commcarehq.org/xforms',
-                u'#text': u'v2.9.0 (6b1e95-e699cd-unvers-2.1.0-Nokia/S40-native-input) build 23681 App #153 b:2013-Sep-30 r:2013-Nov-18'
-                },
-            u'timeStart': datetime.datetime(2013, 11, 18, 17, 49, 11),
-            u'deviceID': u'354146053394360'
-        }, 
-        u'group_membership': [{
-            u'reason_left_group': u'Gtggh',
-            u'group_position': [{
-                u'date_left_position':
-                u'', u'position':u'Fff',
-                u'date_took_position': u'',
-                u'reason_left_position': u'Gggg'
-                },{
-                u'date_left_position': u'',
-                u'position': u'Ggggg', 
-                u'date_took_position': datetime.date(2012, 12, 12),
-                u'reason_left_position': u''
-                }],
-            u'date_left': datetime.date(2013, 11, 18),
-            u'group_type': u'Asc',
-            u'date_joined': u''
-        },{
-            u'reason_left_group': u'Closed',
-            u'group_position': {
-                u'date_left_position': u'',
-                u'position': u'Boss',
-                u'date_took_position': datetime.date(2013, 12, 12),
-                u'reason_left_position': u'Merged'
-                },
-            u'date_left': u'',
-            u'group_type': u'Hhhh',
-            u'date_joined': u''
-        }], 
-            u'@xmlns': u'http://openrosa.org/formdesigner/0BB4FA46-2EB6-4765-81E0-2FC5CA072EF5',
-            u'@version': u'153'
-    }
-    
-    Form definition:
-    [{
-        'tag': 'group', 
-        'children': [{
-            'tag': 'input',
-            'value': '/data/group_membership/group_type',
-            'label': '6. Group name'
-        },{
-            'tag': 'input',
-            'value': '/data/group_membership/date_joined',
-            'label': '7. Date joined'
-        },{
-            'tag': 'input',
-            'value': '/data/group_membership/date_left',
-            'label': '8. Date left'
-        },{
-            'tag': 'input',
-            'value': '/data/group_membership/reason_left_group',
-            'label': '9. Reason for leaving'
-        },{
-            'tag': 'group',
-                'children': [{
-                    'tag': 'input',
-                    'value': '/data/group_membership/group_position/position',
-                    'label': '10. Position'
-            },{
-                    'tag': 'input',
-                    'value': '/data/group_membership/group_position/date_took_position',
-                    'label': '11. Date took position'
-            },{
-                    'tag': 'input',
-                    'value': '/data/group_membership/group_position/date_left_position',
-                    'label': '12. Date left position'
-            },{
-                    'tag': 'input',
-                    'value': '/data/group_membership/group_position/reason_left_position',
-                    'label': '13. Reason for leaving'
-            }],
-                'value': '/data/group_membership',
-                'label': 'Positions held'}], 
-            'value': '',
-            'label': 'Group membership'
-        },{
-            'tag': 'hidden',
-            'value': '/data/case/update',
-            'label': '/data/case/update'
-        },{
-            'tag': 'hidden',
-            'value': '/data/meta/deviceID',
-            'label': '/data/meta/deviceID'
-        },{
-            'tag': 'hidden',
-            'value': '/data/meta/timeStart',
-            'label': '/data/meta/timeStart'
-        },{
-            'tag': 'hidden',
-            'value': '/data/meta/timeEnd',
-            'label': '/data/meta/timeEnd'
-        },{
-            'tag': 'hidden', 
-            'value': '/data/meta/username',
-            'label': '/data/meta/username'
-        },{
-            'tag': 'hidden',
-            'value': '/data/meta/userID',
-            'label': '/data/meta/userID'
-        },{
-            'tag': 'hidden',
-            'value': '/data/meta/instanceID',
-            'label': '/data/meta/instanceID'
-        },{
-            'tag': 'hidden',
-            'value': '/data/meta/appVersion',
-            'label': '/data/meta/appVersion'
-        }]
-    """
     def test_children_parsed(self):
         form_definition = [{
         'tag': 'group', 
@@ -365,28 +232,52 @@ class TestHumaniseFormData():
                 },
                 {
                     'reason_left_group': 'Closed',
-                    'group_position':
-                    {
+                    # Note that CommCare does not return a list of dicts for a
+                    # single repeat group value;
+                    'group_position': {
                         'position': 'Time keeper',
                     },
                     'group_name': 'SHG Grassroots Federation',
                 }],
             }
         }
-        
+
+
+        # repeat-group data should be contained in a list of lists when there
+        # are multiple rows.
+        # (treat them like tabular data, one row per loop).
+
+        # a repeat group with a single response appears as a normal question
+        # group (a list containing questions). - this is how CommCare sends the
+        # data.
+
         expected = \
-        [('Group membership', [
-            ('Group name', 'SHG'),
-            ('Reason for leaving', 'Moved to other village'),
-            ('Positions held', [
-                ('Position', 'Secretary'),
-                ('Position', 'Chair')]),
-            ('Group name', 'SHG Grassroots Federation'),
-            ('Reason for leaving', 'Closed'),
-                ('Positions held',  [
-                    ('Position', 'Time keeper')])
-            ])]
-        
+        [('Group membership',
+            [
+                [
+                    ('Group name', 'SHG'),
+                    ('Reason for leaving', 'Moved to other village'),
+                    ('Positions held', [
+                        [
+                            ('Position', 'Secretary')
+                        ],
+                        [
+                            ('Position', 'Chair')
+                        ]
+                    ]),
+                ],
+                [
+                    ('Group name', 'SHG Grassroots Federation'),
+                    ('Reason for leaving', 'Closed'),
+                    ('Positions held', [
+                    # Note that a single repeat is treated as a normal
+                    # question, rather than a list of lists;
+                            ('Position', 'Time keeper')
+                    ])
+                ]
+            ]
+        )]
+
         form = CommCareForm(form_data)
         actual = form.make_human_readable(form_definition)
         

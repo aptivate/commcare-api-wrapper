@@ -113,9 +113,6 @@ class CommCareForm(object):
         """
         form_definition is a list of dictionaries retrieved by running
         get_questions on an xform.
-
-        TODO: Currently throws away any ungrouped data nodes, but should
-        probably be made available.
         """
         form_data = self.form_data['form']
 
@@ -139,12 +136,12 @@ class CommCareForm(object):
                     if isinstance(value, list):
                         group_nodes = []
                         for repeat_value in value:
-                            group_nodes.extend(resolve_form_values(children,
-                                repeat_value))
+                            repeat_groups = resolve_form_values(children, repeat_value)
+                            group_nodes.append(repeat_groups)
                     else:
                         group_nodes = resolve_form_values(children, value)
                     data_nodes.append((label, group_nodes))
-                        
+
                 elif tag in ['select', 'select1']:
                     options = def_node.get('options', [])
 

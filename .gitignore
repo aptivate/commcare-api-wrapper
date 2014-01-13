@@ -3,3 +3,5 @@
 credentials.json
 *~
 
+/build
+/CommCareApi.egg-info

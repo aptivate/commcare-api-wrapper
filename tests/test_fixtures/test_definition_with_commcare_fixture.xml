@@ -1,0 +1,41 @@
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa">
+    <h:head>
+        <h:title>Membership</h:title>
+        <model>
+            <instance>
+                <data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/0BB4FA46-2EB6-4765-81E0-2FC5CA072EF5" uiVersion="1" version="318" name="Membership">
+                    <group_membership jr:template="">
+                        <shg_group_name/>
+                    </group_membership>
+                </data>
+            </instance><instance id="commcaresession" src="jr://instance/session"/>
+            <instance id="shgs" src="jr://fixture/item-list:shg"/>
+            <instance id="ascs" src="jr://fixture/item-list:asc"/>
+            <bind nodeset="/data/group_membership"/>
+            <itext>
+                <translation lang="en" default="">
+                    <text id="group_membership-label">
+                        <value>Group membership</value>
+                    </text>
+                    <text id="shg_group_name-label">
+                        <value>6. SHG Group name</value>
+                    </text>
+                </translation>
+            </itext>
+        </model>
+    </h:head>
+    <h:body>
+        <group>
+            <label ref="jr:itext('group_membership-label')"/>
+            <repeat nodeset="/data/group_membership">
+                <select1 ref="/data/group_membership/shg_group_name">
+                    <label ref="jr:itext('shg_group_name-label')"/>
+                    <itemset nodeset="instance('shgs')/shg_list/shg">
+                        <label ref="name"/>
+                        <value ref="id"/>
+                    </itemset>
+                </select1>
+            </repeat>
+        </group>
+    </h:body>
+</h:html>

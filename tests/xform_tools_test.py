@@ -87,3 +87,51 @@ class TestGetQuestions:
         ]
 
         assert actual_questions == expected_questions
+
+    def test_value_correct_for_repeat_questions(self):
+        test_dir = os.path.abspath(os.path.dirname(__file__))
+        raw_xform_file = os.path.join(test_dir, 'test_fixtures', 
+            'test_definition_with_commcare_fixture.xml')
+        raw_xform = open(raw_xform_file, 'r').read()
+        xform_test = XForm(raw_xform)
+        
+        fixtures = {
+            'shgs' : [
+                {
+                    'id' : 'GP1V1S1',
+                    'name' : 'Sri Kaaleshwara Swamy'
+                },
+                {
+                    'id' : 'GP1V1S2',
+                    'name' : 'Sri Vigneshwara Swamy'
+                },
+                {
+                    'id' : 'GP1V2S1',
+                    'name' : 'SHG in Bedarapura'
+                }]
+        }
+        
+        actual_questions = xform_test.get_questions(['en'], fixtures)
+        
+        expected_questions = \
+        [{
+            'tag': 'group',
+            'children': 
+            [{
+                'tag': 'select1', 
+                'value': '/data/group_membership/shg_group_name', 
+                'label': '6. SHG Group name',
+                'options': [{'label': 'Sri Kaaleshwara Swamy','value': 'GP1V1S1'},
+                          {'label': 'Sri Vigneshwara Swamy', 'value': 'GP1V1S2'},
+                          {'label': 'SHG in Bedarapura', 'value': 'GP1V2S1'}],
+
+            }],
+            'value': '/data/group_membership',
+            'label': 'Group membership'}
+        ]
+
+        pprint.pprint(expected_questions)
+        print "\n"
+        pprint.pprint(actual_questions)
+
+        assert actual_questions == expected_questions

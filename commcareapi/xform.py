@@ -1,4 +1,5 @@
 from lxml import etree as ET
+import re
 
 def parse_xml(string):
     # Work around: ValueError: Unicode strings with encoding
@@ -267,7 +268,7 @@ class XForm(WrappedNode):
         return langs
 
 
-    def get_questions(self, langs):
+    def get_questions(self, langs, fixtures=None):
         """
         parses out the questions from the xform, into the format:
         [{"label": label, "tag": tag, "value": value}, ...]
@@ -350,9 +351,39 @@ class XForm(WrappedNode):
                                         'label': translation,
                                         'value': value
                                     })
+                                    
+                                options.extend(get_itemset_options(prompt))
+                                    
                                 question.update({'options': options})
                             questions.append(question)
             return questions
+
+        def get_itemset_options(prompt):
+            options = []
+                                
+            for item in prompt.findall('{f}itemset'):
+                nodeset = item.attrib['nodeset']
+                
+                label_node = item.find('{f}label')
+                label_ref = label_node.attrib['ref']
+                
+                value_node = item.find('{f}value')
+                value_ref = value_node.attrib['ref']
+                
+                # instance('shgs')/shg_list/shg
+                match = re.match("^instance\('(.*)'\).*$", 
+                    nodeset)
+                
+                if match:
+                    instance_id = match.groups()[0]
+                    
+                    for fixture in fixtures[instance_id]:                                            
+                        options.append({
+                            'label': fixture[label_ref],
+                            'value': fixture[value_ref]
+                        })
+            
+            return options
 
         questions = build_questions(self.find('{h}body'))
 

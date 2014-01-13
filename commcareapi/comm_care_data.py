@@ -240,6 +240,7 @@ class CommCareResources(object):
     def __init__(self, api):
         api.add_resource('case')
         api.add_resource('form')
+        api.add_resource('fixture')
         self.api = api
 
     @classmethod
@@ -251,7 +252,11 @@ class CommCareResources(object):
             return True
         else:
             raise CommCareResourceValidationError(str(data_keys - rules_keys))
-
+        
+    def fixture(self):
+         resp = self.api.fixture.get()
+         return resp.data['objects']
+     
     def list_cases(self):
         """
         https://www.commcarehq.org/a/[domain]/api/v0.3/case/

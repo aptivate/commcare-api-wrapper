@@ -93,8 +93,6 @@ class TestGetQuestions:
         raw_xform_file = os.path.join(test_dir, 'test_fixtures', 
             'test_definition_with_commcare_fixture.xml')
         raw_xform = open(raw_xform_file, 'r').read()
-        xform_test = XForm(raw_xform)
-        
         fixtures = {
             'shgs' : [
                 {
@@ -111,7 +109,9 @@ class TestGetQuestions:
                 }]
         }
         
-        actual_questions = xform_test.get_questions(['en'], fixtures)
+        xform_test = XForm(raw_xform, fixtures=fixtures)
+        
+        actual_questions = xform_test.get_questions(['en'])
         
         expected_questions = \
         [{
@@ -129,9 +129,5 @@ class TestGetQuestions:
             'value': '/data/group_membership',
             'label': 'Group membership'}
         ]
-
-        pprint.pprint(expected_questions)
-        print "\n"
-        pprint.pprint(actual_questions)
 
         assert actual_questions == expected_questions

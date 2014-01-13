@@ -131,6 +131,7 @@ class XForm(WrappedNode):
 
     """
     def __init__(self, *args, **kwargs):
+        self.fixtures = kwargs.pop('fixtures', {})
         super(XForm, self).__init__(*args, **kwargs)
         if self.exists():
             xmlns = self.data_node.tag_xmlns
@@ -268,7 +269,7 @@ class XForm(WrappedNode):
         return langs
 
 
-    def get_questions(self, langs, fixtures=None):
+    def get_questions(self, langs):
         """
         parses out the questions from the xform, into the format:
         [{"label": label, "tag": tag, "value": value}, ...]
@@ -377,7 +378,7 @@ class XForm(WrappedNode):
                 if match:
                     instance_id = match.groups()[0]
                     
-                    for fixture in fixtures[instance_id]:                                            
+                    for fixture in self.fixtures[instance_id]:                                            
                         options.append({
                             'label': fixture[label_ref],
                             'value': fixture[value_ref]

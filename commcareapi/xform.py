@@ -372,7 +372,7 @@ class XForm(WrappedNode):
                 value_ref = value_node.attrib['ref']
                 
                 # instance('shgs')/shg_list/shg
-                match = re.match("^instance\('(.*)'\).*$", 
+                match = re.match("^instance\('.*'\)/.*/(.*)$", 
                     nodeset)
                 
                 if match:

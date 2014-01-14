@@ -94,7 +94,7 @@ class TestGetQuestions:
             'test_definition_with_commcare_fixture.xml')
         raw_xform = open(raw_xform_file, 'r').read()
         fixtures = {
-            'shgs' : [
+            'shg' : [
                 {
                     'id' : 'GP1V1S1',
                     'name' : 'Sri Kaaleshwara Swamy'

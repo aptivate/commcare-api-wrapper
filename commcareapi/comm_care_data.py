@@ -196,7 +196,7 @@ class CommCareCase(object):
                 raise CommCareCaseValueError('Could not parse case_data')
         else:
             self.case_data = case_data
-            
+
         if not self.is_case_valid:
             raise CommCareResourceValidationError('Case not valid')
 
@@ -241,6 +241,7 @@ class CommCareResources(object):
         api.add_resource('case')
         api.add_resource('form')
         api.add_resource('fixture')
+        api.add_resource('user')
         self.api = api
 
     @classmethod
@@ -252,11 +253,18 @@ class CommCareResources(object):
             return True
         else:
             raise CommCareResourceValidationError(str(data_keys - rules_keys))
-        
+
     def fixture(self):
          resp = self.api.fixture.get()
          return resp.data['objects']
-     
+
+    def list_users(self):
+        """
+        https://www.commcarehq.org/a/[domain]/api/[version]/user/[user_id]
+        """
+        resp = self.api.user.get()
+        return resp.data['objects']
+
     def list_cases(self):
         """
         https://www.commcarehq.org/a/[domain]/api/v0.3/case/

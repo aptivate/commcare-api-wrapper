@@ -12,7 +12,7 @@ HOST = 'https://www.commcarehq.org'
 class CommCareAPI(drest.api.API):
 
     def __init__(self, domain, user, password, limit=10000):
-        baseurl = self.commcare_base(domain, 'v0.3')
+        baseurl = self.commcare_base(domain, 'v0.4')
         extra_params = dict(limit=limit)
         super(CommCareAPI, self).__init__(baseurl=baseurl,
                                           extra_params=extra_params,
@@ -242,6 +242,7 @@ class CommCareResources(object):
         api.add_resource('form')
         api.add_resource('fixture')
         api.add_resource('user')
+        api.add_resource('group')
         self.api = api
 
     @classmethod
@@ -263,6 +264,13 @@ class CommCareResources(object):
         https://www.commcarehq.org/a/[domain]/api/[version]/user/[user_id]
         """
         resp = self.api.user.get()
+        return resp.data['objects']
+
+    def list_groups(self):
+        """
+        https://www.commcarehq.org/a/[domain]/api/[version]/group/
+        """
+        resp = self.api.group.get()
         return resp.data['objects']
 
     def list_cases(self):

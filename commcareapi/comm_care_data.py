@@ -2,11 +2,17 @@ import urllib2
 import string
 import json
 import drest
-from jsonpath import jsonpath
+from jsonpath_rw import parse as jsonpath_parse
 
 from .xform import parse_xml
 
 HOST = 'https://www.commcarehq.org'
+
+
+def jsonpath(json, expression):
+    parser = jsonpath_parse(expression)
+    matches = parser.find(json)
+    return [o.value for o in matches]
 
 
 class CommCareAPI(drest.api.API):

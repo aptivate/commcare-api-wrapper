@@ -279,7 +279,7 @@ class CommCareResources(object):
         resp = self.api.group.get()
         return resp.data['objects']
 
-    def list_cases(self, params=None):
+    def list_cases(self, params={}):
         """
         https://www.commcarehq.org/a/[domain]/api/v0.3/case/
         structure of resp;

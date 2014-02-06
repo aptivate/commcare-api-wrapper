@@ -279,13 +279,16 @@ class CommCareResources(object):
         resp = self.api.group.get()
         return resp.data['objects']
 
-    def list_cases(self, params={}):
+    def list_cases(self, params=None):
         """
         https://www.commcarehq.org/a/[domain]/api/v0.3/case/
         structure of resp;
         -> meta [pagination?]
         -> objects [list of cases]
         """
+        if params is None:
+            params = {}
+
         resp = self.api.case.get(params=params)
         list_cases_data = resp.data.get('objects')
         list_cases = []

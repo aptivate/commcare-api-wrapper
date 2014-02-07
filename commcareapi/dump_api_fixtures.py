@@ -10,6 +10,7 @@ def main():
     parser.add_argument('-u', help='username (eg. "user@example.org")', required=True)
     parser.add_argument('-p', help='password', required=True)
     parser.add_argument('-d', help='domain', required=True)
+    parser.add_argument('-v', help='debug', action='store_true', required=False)
 
     subparsers = parser.add_subparsers(dest='resource')
     case_parser = subparsers.add_parser('case', help='list cases or get case')
@@ -20,7 +21,7 @@ def main():
 
     args = parser.parse_args()
 
-    api = CommCareAPI(args.d, args.u, args.p)
+    api = CommCareAPI(args.d, args.u, args.p, debug=args.v)
     handler = CommCareResources(api)
 
     if args.resource == 'case':

@@ -1,3 +1,4 @@
+import sys
 import urllib2
 import string
 import json
@@ -17,12 +18,13 @@ def jsonpath(json, expression):
 
 class CommCareAPI(drest.api.API):
 
-    def __init__(self, domain, user, password, limit=10000):
+    def __init__(self, domain, user, password, limit=10000, debug=False):
         baseurl = self.commcare_base(domain, 'v0.4')
         extra_params = dict(limit=limit)
         super(CommCareAPI, self).__init__(baseurl=baseurl,
                                           extra_params=extra_params,
-                                          auth_mech='basic')
+                                          auth_mech='basic',
+                                          debug=debug)
         super(CommCareAPI, self).auth(user, password)
 
     def commcare_base(self, domain, version):
@@ -279,21 +281,48 @@ class CommCareResources(object):
         resp = self.api.group.get()
         return resp.data['objects']
 
-    def list_cases(self, params=None):
+    def get_all_cases(self, params):
+        """ Page through API responses
+
+            There is a hard limit on the Case API to return 100 per request.
+
+            "meta": {
+                "total_count": 294,
+                "previous": null,
+                "offset": 0,
+                "next": "?limit=10&offset=10",
+                "limit": 10
+            }
+        """
+        next_page = None
+        more_pages = True
+        while more_pages:
+            if next_page:
+                params.update({'next': next_page})
+
+            resp = self.api.case.get(params=params)
+
+            for case in resp.data.get('objects', []):
+                yield case
+
+            meta = resp.data.get('meta')
+            print >> sys.stderr, meta
+            next_page = meta.get('next')
+            more_pages = True if next_page else False
+
+    def list_cases(self, params={}):
         """
         https://www.commcarehq.org/a/[domain]/api/v0.3/case/
         structure of resp;
         -> meta [pagination?]
         -> objects [list of cases]
         """
-        if params is None:
-            params = {}
-
-        resp = self.api.case.get(params=params)
-        list_cases_data = resp.data.get('objects')
+        list_cases_data = self.get_all_cases(params)
         list_cases = []
+
         for case in list_cases_data:
             list_cases.append(CommCareCase(case))
+
         return list_cases
 
     def case(self, case_id):

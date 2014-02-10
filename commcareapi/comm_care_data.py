@@ -18,7 +18,7 @@ def jsonpath(json, expression):
 
 class CommCareAPI(drest.api.API):
 
-    def __init__(self, domain, user, password, limit=10000, debug=False):
+    def __init__(self, domain, user, password, limit=100, debug=False):
         baseurl = self.commcare_base(domain, 'v0.4')
         extra_params = dict(limit=limit)
         super(CommCareAPI, self).__init__(baseurl=baseurl,
@@ -281,7 +281,7 @@ class CommCareResources(object):
         resp = self.api.group.get()
         return resp.data['objects']
 
-    def get_all_cases(self, params):
+    def get_all_cases(self, params=None):
         """ Page through API responses
 
             There is a hard limit on the Case API to return 100 per request.
@@ -294,21 +294,21 @@ class CommCareResources(object):
                 "limit": 10
             }
         """
-        next_page = None
+        if params is None:
+            params = {}
+
+        count = 0
         more_pages = True
         while more_pages:
-            if next_page:
-                params.update({'next': next_page})
-
+            params.update({'offset': count})
             resp = self.api.case.get(params=params)
-
-            for case in resp.data.get('objects', []):
+            objects = resp.data.get('objects', [])
+            for case in objects:
                 yield case
 
+            count += len(objects)
             meta = resp.data.get('meta')
-            print >> sys.stderr, meta
-            next_page = meta.get('next')
-            more_pages = True if next_page else False
+            more_pages = (count < meta.get('total_count', 0))
 
     def list_cases(self, params={}):
         """

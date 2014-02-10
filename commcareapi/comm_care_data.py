@@ -363,8 +363,14 @@ class CommCareResources(object):
         return CommCareCase(resp.data)
 
     def form(self, form_id):
-        resp = self.api.form.get(form_id)
-        return CommCareForm(resp.data)
+        try:
+            resp = self.api.form.get(form_id)
+        except drest.exc.dRestRequestError as e:
+            print >> sys.stderr, e.response.status
+            print >> sys.stderr, e.response.data
+            print >> sys.stderr, e.response.headers
+        else:
+            return CommCareForm(resp.data)
 
 
 class CommCareSuiteXML():

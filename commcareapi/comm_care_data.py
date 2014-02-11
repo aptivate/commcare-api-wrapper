@@ -264,8 +264,13 @@ class CommCareResources(object):
             raise CommCareResourceValidationError(str(data_keys - rules_keys))
 
     def fixture(self):
-         resp = self.api.fixture.get()
-         return resp.data['objects']
+        fixtures_list = self.get_all_resources('fixture')
+        
+        fixtures = []
+        for fixture in fixtures_list:
+            fixtures.append(fixture)
+        
+        return fixtures 
 
     def list_users(self):
         """
@@ -281,7 +286,7 @@ class CommCareResources(object):
         resp = self.api.group.get()
         return resp.data['objects']
 
-    def get_all_cases(self, params=None):
+    def get_all_resources(self, resource, params=None):
         """ Page through API responses
 
             There is a hard limit on the Case API to return 100 per request.
@@ -301,7 +306,7 @@ class CommCareResources(object):
         more_pages = True
         while more_pages:
             params.update({'offset': count})
-            resp = self.api.case.get(params=params)
+            resp = getattr(self.api, resource).get(params=params)
             objects = resp.data.get('objects', [])
             for case in objects:
                 yield case
@@ -317,7 +322,7 @@ class CommCareResources(object):
         -> meta [pagination?]
         -> objects [list of cases]
         """
-        list_cases_data = self.get_all_cases(params)
+        list_cases_data = self.get_all_resources('case', params=params)
         list_cases = []
 
         for case in list_cases_data:

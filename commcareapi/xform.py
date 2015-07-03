@@ -29,6 +29,7 @@ namespaces = dict(
     orx="{http://openrosa.org/jr/xforms}",
     reg="{http://openrosa.org/user/registration}",
     cc="{http://commcarehq.org/xforms}",
+    ccct="{http://commcarehq.org/case/transaction/v2}",
 )
 
 def _make_elem(tag, attr=None):
@@ -137,6 +138,9 @@ class XForm(WrappedNode):
             xmlns = self.data_node.tag_xmlns
             self.namespaces.update(x="{%s}" % xmlns)
 
+    @property
+    def case(self):
+        return self.data_node.find('{ccct}case')
 
     @property
     @raise_if_none("Can't find <model>")
